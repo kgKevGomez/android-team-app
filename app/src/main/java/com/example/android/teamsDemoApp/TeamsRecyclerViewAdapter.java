@@ -1,14 +1,17 @@
 package com.example.android.teamsDemoApp;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.teamsDemoApp.model.Team;
+import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by kevin on 9/2/2017.
@@ -20,12 +23,17 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
     }
 
     private final OnTeamClickedListener mOnClickListener;
-    private final List<Team> mValues;
+    private ArrayList<Team> mValues;
 
-    public TeamsRecyclerViewAdapter(OnTeamClickedListener onClickListener, List<Team> items) {
+    public TeamsRecyclerViewAdapter(OnTeamClickedListener onClickListener, ArrayList<Team> items) {
         mOnClickListener = onClickListener;
         mValues = items;
 
+    }
+
+    public void setData(ArrayList<Team> data){
+        mValues = data;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -40,6 +48,11 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         holder.mItem = mValues.get(position);
         holder.mTitleTextView.setText(holder.mItem.getName());
         holder.mAddressTextView.setText(holder.mItem.getAddress());
+        Picasso.with(holder.mContext)
+                .load(holder.mItem.getLogoUrl())
+                .fit()
+                .centerInside()
+                .into(holder.mImageTeamView);
     }
 
     @Override
@@ -50,12 +63,16 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
     class ViewHolder extends RecyclerView.ViewHolder {
         final TextView mTitleTextView;
         final TextView mAddressTextView;
+        private final ImageView mImageTeamView;
+        private final Context mContext;
         Team mItem;
 
         ViewHolder(View view) {
             super(view);
             mTitleTextView = (TextView) view.findViewById(R.id.text_tile);
             mAddressTextView = (TextView) view.findViewById(R.id.text_address);
+            mImageTeamView = (ImageView) view.findViewById(R.id.image_team);
+            mContext = view.getContext();
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -15,34 +15,34 @@ import java.util.Date;
 @Parcel
 public class Team {
     @SerializedName("id")
-    private int id;
+    int id;
 
     @SerializedName("team_name")
-    private String name;
+    String name;
 
     @SerializedName("img_logo")
-    private String logoUrl;
+    String logoUrl;
 
     @SerializedName("description")
-    private String description;
+    String description;
 
     @SerializedName("address")
-    private String address;
+    String address;
 
     @SerializedName("video_url")
-    private String videoUrl;
+    String videoUrl;
 
     @SerializedName("latitude")
-    private double latitude;
+    double latitude;
 
     @SerializedName("longitude")
-    private double longitude;
+    double longitude;
 
     @SerializedName("phone_number")
-    private String phoneNumber;
+    String phoneNumber;
 
     @SerializedName("schedule_games")
-    private ArrayList<Schedule> scheduleGames;
+    ArrayList<Schedule> scheduleGames;
 
     public ArrayList<Schedule> getScheduleGames() {
         return scheduleGames;
@@ -138,27 +138,4 @@ public class Team {
         return name;
     }
 
-    @Parcel
-    public class Schedule {
-        @SerializedName("date")
-        private Date date;
-        @SerializedName("stadium")
-        private String stadium;
-
-        public Date getDate() {
-            return date;
-        }
-
-        public void setDate(Date date) {
-            this.date = date;
-        }
-
-        public String getStadium() {
-            return stadium;
-        }
-
-        public void setStadium(String stadium) {
-            this.stadium = stadium;
-        }
-    }
 }

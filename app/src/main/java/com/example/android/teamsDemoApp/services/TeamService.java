@@ -4,6 +4,7 @@ import com.example.android.teamsDemoApp.model.Team;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.GET;
 
@@ -13,5 +14,5 @@ import retrofit2.http.GET;
 
 public interface TeamService {
     @GET("/external/applaudo_homework.json")
-    void getTeams(Callback<ArrayList<Team>> callback);
+    Call<ArrayList<Team>> getTeams();
 }

@@ -1,12 +1,23 @@
 package com.example.android.teamsDemoApp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+
+import com.example.android.teamsDemoApp.model.Team;
+import com.example.android.teamsDemoApp.services.RestClient;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
@@ -17,6 +28,8 @@ import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
  * in a {@link TeamListActivity}.
  */
 public class TeamDetailActivity extends AppCompatActivity {
+
+    public static final String TEAM_PHONE_NUMBER = "TEAM_PHONE_NUMBER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +58,8 @@ public class TeamDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putInt(TeamDetailFragment.ARG_ITEM_ID,
-                    getIntent().getIntExtra(TeamDetailFragment.ARG_ITEM_ID, 0));
+            arguments.putParcelable(TeamDetailFragment.ARG_ITEM_ID,
+                    getIntent().getParcelableExtra(TeamDetailFragment.ARG_ITEM_ID));
             TeamDetailFragment fragment = new TeamDetailFragment();
             fragment.setArguments(arguments);
 
@@ -54,6 +67,7 @@ public class TeamDetailActivity extends AppCompatActivity {
                     .add(R.id.team_detail_container, fragment)
                     .commit();
         }
+
     }
 
     @Override
@@ -72,6 +86,11 @@ public class TeamDetailActivity extends AppCompatActivity {
             // In the case of this activity, the Up button is shown.
             navigateUpTo(new Intent(this, TeamListActivity.class));
             return true;
+        }
+        else if (id == R.id.call_team){
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + getIntent().getStringExtra(TEAM_PHONE_NUMBER)));
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

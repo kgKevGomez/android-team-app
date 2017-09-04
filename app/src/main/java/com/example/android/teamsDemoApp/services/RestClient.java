@@ -11,12 +11,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestClient{
+    private static RestClient instance;
     private static final String BASE_URL = "http://applaudostudios.com";
     private TeamService teamService;
 
     public RestClient(){
         Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy'-'MM'-'dd' 'HH':'mm':'ss' 'X")
+                .setDateFormat("yyyy'-'MM'-'dd' 'HH':'mm':'ss' 'Z")
                 .create();
 
         GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
@@ -27,6 +28,13 @@ public class RestClient{
                 .build();
 
         teamService = retrofit.create(TeamService.class);
+    }
+
+    public static RestClient getInstance(){
+        if (instance == null)
+            instance = new RestClient();
+
+        return instance;
     }
 
     public TeamService getTeamService() {

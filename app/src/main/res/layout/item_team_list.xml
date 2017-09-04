@@ -6,11 +6,10 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
+        android:id="@+id/image_team"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="8dp"
-        android:tint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,28 +21,32 @@
         android:id="@+id/text_tile"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="7dp"
         android:layout_marginTop="8dp"
         android:text="Team Name"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        app:layout_constraintLeft_toRightOf="@+id/imageView"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/image_team"
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:id="@+id/text_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="6dp"
         android:layout_marginTop="0dp"
         android:text="Team Address"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textAppearance="@android:style/TextAppearance.Material.Small"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/imageView"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_tile" />
+        app:layout_constraintTop_toBottomOf="@+id/text_tile"
+        app:layout_constraintVertical_bias="0.466"
+        app:layout_constraintLeft_toRightOf="@+id/image_team"
+        android:layout_marginLeft="8dp" />
 </android.support.constraint.ConstraintLayout>

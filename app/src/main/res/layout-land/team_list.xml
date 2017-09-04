@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:padding="0dp"
+    android:layout_margin="0dp"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
@@ -16,10 +16,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/team_list"
         android:name="com.example.android.teamsDemoApp.TeamListFragment"
-        android:layout_width="@dimen/item_width"
+        android:layout_width="0dp"
+        android:layout_weight="5"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:padding="0dp"
+        android:layout_margin="0dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.example.android.teamsDemoApp.TeamListActivity"
         tools:listitem="@layout/item_team_list" />
@@ -27,7 +28,9 @@
     <FrameLayout
         android:id="@+id/team_detail_container"
         android:layout_width="0dp"
+        android:padding="0dp"
+        android:layout_margin="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_weight="6" />
 
 </LinearLayout>
