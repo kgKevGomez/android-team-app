@@ -66,17 +66,15 @@ public class TeamListActivity extends AppCompatActivity implements TeamsRecycler
         loadTeams(savedInstanceState);
         setupRecyclerView((RecyclerView) recyclerView);
 
-        if (findViewById(R.id.team_detail_container) != null) {
-            // The detail container view will be present only in the landscape mode.
-            // If this view is present, then the activity should be in two-pane mode.
-            mTwoPane = true;
-            if (savedInstanceState != null)
-                mCurrentTeam = Parcels.unwrap(savedInstanceState.getParcelable(TeamDetailFragment.BUNDLE_ITEM));
-            else
-                mCurrentTeam = mFetchedTeams == null || mFetchedTeams.isEmpty() ? null : mFetchedTeams.get(0);
+        // The detail container view will be present only in the landscape mode.
+        // If this view is present, then the activity should be in two-pane mode.
+        mTwoPane = findViewById(R.id.team_detail_container) != null;
+        if (savedInstanceState != null)
+            mCurrentTeam = Parcels.unwrap(savedInstanceState.getParcelable(TeamDetailFragment.BUNDLE_ITEM));
+        else
+            mCurrentTeam = mFetchedTeams == null || mFetchedTeams.isEmpty() ? null : mFetchedTeams.get(0);
 
-            loadTeam(mCurrentTeam);
-        }
+        loadTeam(mCurrentTeam, !mTwoPane);
     }
 
     private void loadTeams(Bundle savedInstanceState) {
