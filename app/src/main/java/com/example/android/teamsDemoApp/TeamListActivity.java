@@ -97,7 +97,7 @@ public class TeamListActivity extends AppCompatActivity implements TeamsRecycler
 
                     mTeamsRecyclerViewAdapter.setData(mFetchedTeams);
                     mCurrentTeam = mFetchedTeams.isEmpty() ? null : mFetchedTeams.get(0);
-                    loadTeam(mCurrentTeam);
+                    loadTeam(mCurrentTeam, true);
                 }
 
                 @Override
@@ -142,7 +142,10 @@ public class TeamListActivity extends AppCompatActivity implements TeamsRecycler
         loadTeam(team);
     }
 
-    private void loadTeam(Team team) {
+    private void loadTeam(Team team){
+        loadTeam(team, false);
+    }
+    private void loadTeam(Team team, boolean twoPaneOnly) {
         mCurrentTeam = team;
 
         if (mTwoPane) {
@@ -153,7 +156,7 @@ public class TeamListActivity extends AppCompatActivity implements TeamsRecycler
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.team_detail_container, fragment)
                     .commit();
-        } else {
+        } else if (!twoPaneOnly) {
             Intent intent = new Intent(this, TeamDetailActivity.class);
             intent.putExtra(TeamDetailFragment.BUNDLE_ITEM, Parcels.wrap(team));
 
