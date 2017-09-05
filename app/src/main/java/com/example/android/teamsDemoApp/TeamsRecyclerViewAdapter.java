@@ -50,6 +50,7 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         holder.mAddressTextView.setText(holder.mItem.getAddress());
         Picasso.with(holder.mContext)
                 .load(holder.mItem.getLogoUrl())
+                .placeholder(R.drawable.ic_info_outline_32dp)
                 .fit()
                 .centerInside()
                 .into(holder.mImageTeamView);

@@ -4,20 +4,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.example.android.teamsDemoApp.model.Schedule;
 import com.example.android.teamsDemoApp.model.Team;
-import com.example.android.teamsDemoApp.services.RestClient;
 
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import org.parceler.Parcels;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
@@ -30,14 +25,18 @@ import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 public class TeamDetailActivity extends AppCompatActivity {
 
     public static final String TEAM_PHONE_NUMBER = "TEAM_PHONE_NUMBER";
+    private Team mTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //If orientation is in Landscape mode, then we go back to the
+        // main activity to use the side-by-side layout
         if (getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE){
             finish();
         }
+
         setContentView(R.layout.activity_team_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
@@ -57,14 +56,10 @@ public class TeamDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(TeamDetailFragment.ARG_ITEM_ID,
-                    getIntent().getParcelableExtra(TeamDetailFragment.ARG_ITEM_ID));
-            TeamDetailFragment fragment = new TeamDetailFragment();
-            fragment.setArguments(arguments);
+            mTeam = Parcels.unwrap(getIntent().getParcelableExtra(TeamDetailFragment.BUNDLE_ITEM));
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.team_detail_container, fragment)
+                    .add(R.id.team_detail_container, TeamDetailFragment.getInstance(mTeam))
                     .commit();
         }
 
@@ -83,15 +78,32 @@ public class TeamDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // In the case of this activity, the Up button is shown.
-            navigateUpTo(new Intent(this, TeamListActivity.class));
+            finish();
             return true;
         }
         else if (id == R.id.call_team){
             Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + getIntent().getStringExtra(TEAM_PHONE_NUMBER)));
+            intent.setData(Uri.parse("tel:" + mTeam.getPhoneNumber()));
             startActivity(intent);
         }
+        else if (id == R.id.share_schedule){
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Scheduled Games");
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(mTeam.getName())
+                    .append(" Scheduled Games")
+                    .append("\n");
+
+            for(Schedule schedule : mTeam.getScheduleGames())
+                stringBuilder.append(schedule).append("\n");
+
+            intent.putExtra(Intent.EXTRA_TEXT, stringBuilder.toString());
+
+            intent.setType("text/plain");
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

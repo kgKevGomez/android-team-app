@@ -41,14 +41,10 @@ import org.parceler.Parcels;
  * on handsets.
  */
 public class TeamDetailFragment extends Fragment implements OnMapReadyCallback {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String BUNDLE_ITEM = "BUNDLE_ITEM";
     private Team mItem;
-    private SimpleExoPlayerView playerView;
-    private SimpleExoPlayer player;
+    private SimpleExoPlayerView mPlayerView;
+    private SimpleExoPlayer mPlayer;
     private MapView mMapView;
 
     /**
@@ -58,12 +54,22 @@ public class TeamDetailFragment extends Fragment implements OnMapReadyCallback {
     public TeamDetailFragment() {
     }
 
+    public static TeamDetailFragment getInstance(Team team){
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(TeamDetailFragment.BUNDLE_ITEM, Parcels.wrap(team));
+
+        TeamDetailFragment fragment = new TeamDetailFragment();
+        fragment.setArguments(arguments);
+
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            mItem = Parcels.unwrap(getArguments().getParcelable(ARG_ITEM_ID));
+        if (getArguments().containsKey(BUNDLE_ITEM)) {
+            mItem = Parcels.unwrap(getArguments().getParcelable(BUNDLE_ITEM));
         }
     }
 
@@ -78,11 +84,12 @@ public class TeamDetailFragment extends Fragment implements OnMapReadyCallback {
             ImageView imageTeamView = (ImageView) rootView.findViewById(R.id.image_team);
             Picasso.with(getContext())
                     .load(mItem.getLogoUrl())
+                    .placeholder(R.drawable.ic_info_outline_32dp)
                     .fit()
                     .centerInside()
                     .into(imageTeamView);
 
-            playerView = (SimpleExoPlayerView) rootView.findViewById(R.id.video_team);
+            mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.video_team);
             initializePlayer();
             initializeMap(rootView, savedInstanceState);
         }
@@ -124,11 +131,11 @@ public class TeamDetailFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initializePlayer() {
-        player = ExoPlayerFactory.newSimpleInstance(
+        mPlayer = ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(getContext()),
                 new DefaultTrackSelector(), new DefaultLoadControl());
 
-        playerView.setPlayer(player);
+        mPlayerView.setPlayer(mPlayer);
 
         // Produces DataSource instances through which media data is loaded.
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
@@ -138,13 +145,12 @@ public class TeamDetailFragment extends Fragment implements OnMapReadyCallback {
         // This is the MediaSource representing the media to be played.
         MediaSource videoSource = new ExtractorMediaSource(Uri.parse(mItem.getVideoUrl()),
                 dataSourceFactory, extractorsFactory, null, null);
-        // Prepare the player with the source.
-        player.prepare(videoSource);
+        // Prepare the mPlayer with the source.
+        mPlayer.prepare(videoSource);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         MapsInitializer.initialize(this.getActivity());
 
         // Add a marker in Sydney, Australia,

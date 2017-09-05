@@ -9,13 +9,13 @@
         android:id="@+id/image_team"
         android:layout_width="50dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_dialog_info"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        app:srcCompat="@drawable/ic_info_outline_32dp" />
 
     <TextView
         android:id="@+id/text_tile"

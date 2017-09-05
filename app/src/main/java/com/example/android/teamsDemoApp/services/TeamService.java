@@ -5,7 +5,6 @@ import com.example.android.teamsDemoApp.model.Team;
 import java.util.ArrayList;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.http.GET;
 
 /**
