@@ -101,7 +101,7 @@ public class TeamDetailActivity extends AppCompatActivity {
             intent.putExtra(Intent.EXTRA_TEXT, stringBuilder.toString());
 
             intent.setType("text/plain");
-            startActivity(intent);
+            startActivity(Intent.createChooser(intent, "Choose an application:"));
         }
 
         return super.onOptionsItemSelected(item);
